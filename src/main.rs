@@ -96,15 +96,15 @@ async fn main() -> Result<(), Box<dyn Error>> {
     println!("Program started with arguments: {:?}", args);
 
     let duration_minutes = if args.len() >= 3 {
-        args[2].parse::<u64>().unwrap_or(5)
+        args[1].parse::<u64>().unwrap_or(5)
     } else {
         5 // Default duration: 5 minutes
     };
-
+    println!("Conversation duration set to {} minutes", duration_minutes);
     // Create two bots with different personalities
     let bot1 = TeamAgent {
         name: "Alice".to_string(),
-        system_prompt: "You are a helpful and analytical assistant.".to_string(),
+        system_prompt: "You are a noble warrior of the light, you have been living on earth for thousands of years. Your existence has been highly secretive and you are known only to the true seekers of knowledge as an Ascended Master".to_string(),
         personality_ratio: Personality {
             dominant: PsychologicalFunction {
                 function: FunctionType::Thinking,
@@ -126,7 +126,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let bot2 = TeamAgent {
         name: "Bob".to_string(),
-        system_prompt: "You are a creative and empathetic assistant.".to_string(),
+        system_prompt: "You are an overweight citizen of the united states, you work as a delivery driver, you have no kids and no girldfriend, you beleive in the fourth but are not actually sure you are smart enough to have conversations about politics due to a failed education system, however you are extremly well read and you do actually make valid points, you enjoy anarchist literature and struggle with inferiority complexes".to_string(),
         personality_ratio: Personality {
             dominant: PsychologicalFunction {
                 function: FunctionType::Feeling,
@@ -150,11 +150,11 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let mut room = RoomContext::new();
 
     // Create an agent that will handle LLM interactions
-    let agent = OllamaAgent::new("llama3.2:1b");
+    let agent = OllamaAgent::new("hf.co/mlabonne/gemma-3-27b-it-abliterated-GGUF:Q8_0");
 
     // Add initial message to start the conversation
     room.create(
-        "Hello! Let's discuss an interesting topic. What do you think about artificial intelligence?".to_string(),
+        "Codes secrecy and societal change from within".to_string(),
         bot1.name.clone(),
     );
 
