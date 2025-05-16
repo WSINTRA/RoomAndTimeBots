@@ -1,46 +1,43 @@
-use std::collections::HashMap;
-use std::env;
-use std::time::Duration;
+// room_setup.rs
+use crate::jungian_modelling::Personality;
 
-// Define the TeamMember enum with PascalCase (Rust convention)
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum TeamMember {
-    ExpertCoder,
-    Futurist,
-    JungianExpert,
-    Mozart,
+#[derive(Debug)]
+pub struct TeamAgent {
+    pub name: String,
+    pub system_prompt: String,
+    pub personality_ratio: Personality,
 }
 
 // Bot struct that uses the TeamMember enum for roles
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 struct Bot {
     id: String,
-    role: TeamMember,
+    role: TeamAgent,
 }
 
 // Message struct to hold each conversation message
 #[derive(Debug, Clone)]
-struct Message {
-    content: String,
-    author: String,
-    is_valid: bool,
+pub struct Message {
+    pub content: String,
+    pub author: String,
+    pub is_valid: bool,
 }
 
 // RoomContext struct to manage the conversation history
 #[derive(Debug)]
-struct RoomContext {
+pub struct RoomContext {
     messages: Vec<Message>,
 }
 
 impl RoomContext {
-    fn new() -> Self {
+    pub fn new() -> Self {
         RoomContext {
             messages: Vec::new(),
         }
     }
 
     // Add a new message to the conversation
-    fn create(&mut self, content: String, author: String) {
+    pub fn create(&mut self, content: String, author: String) {
         self.messages.push(Message {
             content,
             author,
@@ -49,12 +46,12 @@ impl RoomContext {
     }
 
     // Get all valid messages
-    fn read(&self) -> Vec<&Message> {
+    pub fn read(&self) -> Vec<&Message> {
         self.messages.iter().filter(|m| m.is_valid).collect()
     }
 
     // Delete (invalidate) messages that match a keyword
-    fn delete_by_keyword(&mut self, keyword: &str) {
+    pub fn delete_by_keyword(&mut self, keyword: &str) {
         for msg in &mut self.messages {
             if msg.content.contains(keyword) {
                 msg.is_valid = false;
@@ -63,7 +60,7 @@ impl RoomContext {
     }
 
     // Get conversation summary as a formatted string
-    fn get_conversation_summary(&self) -> String {
+    pub fn get_conversation_summary(&self) -> String {
         self.read()
             .iter()
             .map(|msg| format!("{}: {}", msg.author, msg.content))
