@@ -5,4 +5,5 @@ edition = "2021"
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
+chrono = "0.4"
 ollama-rs = "0.3.1"

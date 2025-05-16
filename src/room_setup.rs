@@ -1,7 +1,6 @@
 // room_setup.rs
 use crate::jungian_modelling::Personality;
-
-#[derive(Debug)]
+#[derive(Debug, Clone)] // Added Clone trait here
 pub struct TeamAgent {
     pub name: String,
     pub system_prompt: String,
@@ -9,11 +8,11 @@ pub struct TeamAgent {
 }
 
 // Bot struct that uses the TeamMember enum for roles
-#[derive(Debug)]
-struct Bot {
-    id: String,
-    role: TeamAgent,
-}
+//#[derive(Debug)]
+//struct Bot {
+//    id: String,
+//    role: TeamAgent,
+//}
 
 // Message struct to hold each conversation message
 #[derive(Debug, Clone)]
