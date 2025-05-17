@@ -27,7 +27,7 @@ pub async fn run_conversation(
         current_speaker_index = (current_speaker_index + 1) % bots.len();
         let current_speaker = &bots[current_speaker_index];
 
-        println!("{} is speaking...", current_speaker.name);
+        println!("{} ruminating...", current_speaker.name);
 
         // Generate response
         let response = agent.generate_response(&room, current_speaker).await;
@@ -54,6 +54,22 @@ pub async fn run_conversation(
             break;
         }
     }
+
+    Ok(())
+}
+pub async fn end_conversation(
+    bots: &Vec<TeamAgent>,
+    room: &mut RoomContext,
+    agent: &OllamaAgent,
+) -> Result<(), Box<dyn Error>> {
+    // Generate final response
+    let final_response = agent.generate_response(&room, &bots[4]).await;
+
+    // Add final response to the room
+    room.create(final_response.clone(), "System".to_string());
+
+    // Print final response
+    println!("System: {}", final_response);
 
     Ok(())
 }

@@ -1,21 +1,16 @@
 // progress_bar.rs
-use crossterm::{
-    execute,
-    style::{Color, Print, ResetColor, SetForegroundColor},
-};
-use std::io::{self, Stdout, Write};
+
+use std::io::{self, Write};
 use std::time::Duration;
 
 pub struct ProgressBar {
-    stdout: Stdout,
     bar_width: usize,
     last_printed_length: usize,
 }
 
 impl ProgressBar {
-    pub fn new(stdout: Stdout, bar_width: usize) -> Self {
+    pub fn new(bar_width: usize) -> Self {
         Self {
-            stdout,
             bar_width,
             last_printed_length: 0,
         }
@@ -74,14 +69,6 @@ impl ProgressBar {
         print!("{}", progress_string);
         io::stdout().flush()?;
 
-        Ok(())
-    }
-
-    // We won't need these methods anymore as they clear the terminal
-    // Instead, we'll just print messages normally
-    pub fn print_status(&mut self, message: &str) -> io::Result<()> {
-        println!("\n{}", message);
-        self.stdout.flush()?;
         Ok(())
     }
 }

@@ -22,12 +22,18 @@ impl BotAgent for OllamaAgent {
     async fn generate_response(&self, room_context: &RoomContext, agent: &TeamAgent) -> String {
         let conversation = room_context.get_conversation_summary();
         let prompt = format!(
-            "{}\n\nYou are {}.\n\n Your personality is {}.\n\nConversation so far:\n{}\n\nRespond as {}:",
+            "{}\n\nYou are {}.\n\n Your personality is {}.\n\nConversation so far:\n{}\n\nRespond as the archetype: {}:",
             agent.system_prompt,
             agent.name,
             self.personality_description(&agent.personality_ratio),
             conversation,
             agent.name
+
+        );
+        println!(
+            "System guide: {}\n\nPersonality: {}",
+            agent.system_prompt,
+            self.personality_description(&agent.personality_ratio)
         );
         let request = GenerationRequest::new(self.model.clone(), prompt);
         match self.client.generate(request).await {
@@ -39,9 +45,9 @@ impl BotAgent for OllamaAgent {
         }
     }
 
-    fn invalidate_messages(&self, _room_context: &mut RoomContext, _agent: &TeamAgent) {
-        // Not implemented for this prototype
-    }
+    //    fn invalidate_messages(&self, _room_context: &mut RoomContext, _agent: &TeamAgent) {
+    //        // Not implemented for this prototype
+    //    }
 }
 
 impl OllamaAgent {

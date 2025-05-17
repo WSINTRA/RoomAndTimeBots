@@ -1,7 +1,6 @@
 // main.rs
 use std::env;
 use std::error::Error;
-use std::io::stdout;
 use std::time::{Duration, Instant};
 use tokio::sync::mpsc;
 use tokio::task;
@@ -16,8 +15,9 @@ mod progress_bar;
 mod room_setup;
 mod transcript;
 
-use bot_agent::BotAgent;
+//use bot_agent::BotAgent;
 use bot_config::create_bots;
+use conversation_runner::end_conversation;
 use conversation_runner::run_conversation;
 use ollama_agent::OllamaAgent;
 use progress_bar::ProgressBar;
@@ -47,10 +47,14 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // Create an agent that will handle LLM interactions
     let agent = OllamaAgent::new(model);
+    let default_prompt = "You are a team of four experts in various fields, including covert operations, fundraising, social media strategy, and community building. Your goal is to discuss and strategize ways to fund and promote a top-secret project while maintaining operational security. You will take turns speaking, and your conversation will be recorded for later analysis.";
 
-    let roomprompt = "You are a team of four experts in various fields, including covert operations, fundraising, social media strategy, and community building. Your goal is to discuss and strategize ways to fund and promote a top-secret project while maintaining operational security. You will take turns speaking, and your conversation will be recorded for later analysis.".to_string();
-
-    // Add initial message to start the conversation
+    let roomprompt = if args.len() >= 3 {
+        args[2].clone()
+    } else {
+        default_prompt.to_string()
+    }; // default room prompt if no args exist
+       // Add initial message to start the conversation
     room.create(roomprompt.clone(), "System".to_string());
 
     // Set up conversation duration
@@ -59,7 +63,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // Start a separate task for updating the progress bar
     let progress_task = task::spawn(async move {
-        let mut progress_bar = ProgressBar::new(stdout(), 50);
+        let mut progress_bar = ProgressBar::new(50);
         progress_bar.init().unwrap();
         loop {
             // Check if we should stop
@@ -98,12 +102,13 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let _ = progress_task.await;
 
     let transcript = room.get_conversation_summary();
+    // Generate response
+    //let agent2 = OllamaAgent::new("qwen3:32b");
+    //let response = agent2 generate_response(&room, &bots[4]).await;
+
     if let Err(e) = transcript::save_transcript_to_file(&transcript) {
         eprintln!("Error saving transcript: {}", e);
     }
-
-    println!("Conversation ended. Full transcript saved to file.");
-    println!("{}", room.get_conversation_summary());
-
+    end_conversation(&bots, &mut room, &agent).await?;
     Ok(())
 }

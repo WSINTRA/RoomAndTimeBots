@@ -50,13 +50,13 @@ impl RoomContext {
     }
 
     // Delete (invalidate) messages that match a keyword
-    pub fn delete_by_keyword(&mut self, keyword: &str) {
-        for msg in &mut self.messages {
-            if msg.content.contains(keyword) {
-                msg.is_valid = false;
-            }
-        }
-    }
+    // pub fn delete_by_keyword(&mut self, keyword: &str) {
+    //     for msg in &mut self.messages {
+    //         if msg.content.contains(keyword) {
+    //             msg.is_valid = false;
+    //         }
+    //     }
+    // }
 
     // Get conversation summary as a formatted string
     pub fn get_conversation_summary(&self) -> String {

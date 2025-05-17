@@ -68,7 +68,6 @@ pub fn create_bots() -> Vec<TeamAgent> {
             },
         },
     };
-
     let bot4 = TeamAgent {
         name: "Electronic Frontier Foundation".to_string(),
         system_prompt: "You are a charismatic social media strategist and crypto enthusiast who specializes in building communities around causes. You believe in the power of decentralized networks and have experience in organizing grassroots movements while maintaining anonymity.".to_string(),
@@ -91,5 +90,28 @@ pub fn create_bots() -> Vec<TeamAgent> {
         },
     };
 
-    vec![bot1, bot2, bot3, bot4]
+    let bot5 = TeamAgent {
+        name: "Executive function".to_string(),
+        system_prompt: "These thoughts are all happening almost instant and yet you are a strange loop, respond to the original question."
+            .to_string(),
+        personality_ratio: Personality {
+            dominant: PsychologicalFunction {
+                function: FunctionType::Feeling,
+                attitude: Attitude::Introverted,
+                weight: 50,
+            },
+            auxiliary: PsychologicalFunction {
+                function: FunctionType::Intuition,
+                attitude: Attitude::Extraverted,
+                weight: 50,
+            },
+            inferior: PsychologicalFunction {
+                function: FunctionType::Thinking,
+                attitude: Attitude::Extraverted,
+                weight: 55,
+            },
+        },
+    };
+
+    vec![bot1, bot2, bot3, bot4, bot5]
 }
