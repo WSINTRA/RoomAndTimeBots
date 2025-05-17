@@ -1,6 +1,7 @@
 use crate::bot_agent::BotAgent;
 use crate::ollama_agent::OllamaAgent;
 use crate::room_setup::{RoomContext, TeamAgent};
+use rand::prelude::*;
 use std::error::Error;
 use std::time::{Duration, Instant};
 use tokio::time::sleep;
@@ -20,8 +21,8 @@ pub async fn run_conversation(
     agent: &OllamaAgent,
     message_delay: Duration,
 ) -> Result<(), Box<dyn Error>> {
-    let mut current_speaker_index = 0;
-
+    let mut rng = rand::rng();
+    let mut current_speaker_index = rng.random_range(0..bots.len());
     while start_time.elapsed() < duration {
         // Determine the next speaker (rotate through all bots)
         current_speaker_index = (current_speaker_index + 1) % bots.len();

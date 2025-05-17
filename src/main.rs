@@ -54,10 +54,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
     } else {
         default_prompt.to_string()
     }; // default room prompt if no args exist
-       // Add initial message to start the conversation
-    room.create(roomprompt.clone(), "System".to_string());
-
-    // Set up conversation duration
+    let sys_prompt = format!("{} \n\n Your overall goal is to represent a mind consisting of multiple archetypes and voices, you are a mind based system built on the Jungian model of the psyche. room prompt: {}",default_prompt, roomprompt.clone());
+    // Add initial message to start the conversation
+    room.create(sys_prompt, "System".to_string()); // Set up conversation duration
     let duration = Duration::from_secs(duration_minutes * 60);
     let start_time = Instant::now();
 
