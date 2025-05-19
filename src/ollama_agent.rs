@@ -22,17 +22,15 @@ impl BotAgent for OllamaAgent {
     async fn generate_response(&self, room_context: &RoomContext, agent: &TeamAgent) -> String {
         let conversation = room_context.get_conversation_summary();
         let prompt = format!(
-            "{}\n\nYou are {}.\n\n Your personality is {}.\n\nConversation so far:\n{}\n\nRespond as the archetype: {}:",
+            "System Prompt: {}\n\n Name: {}.\n\n Personality type: {}.\n\nConversation so far:\n{}:",
             agent.system_prompt,
             agent.name,
             self.personality_description(&agent.personality_ratio),
             conversation,
-            agent.name
-
         );
         println!(
-            "System guide: {}\n\nPersonality: {}",
-            agent.system_prompt,
+            "Generating response for {} with prompt: {}",
+            agent.name,
             self.personality_description(&agent.personality_ratio)
         );
         let request = GenerationRequest::new(self.model.clone(), prompt);

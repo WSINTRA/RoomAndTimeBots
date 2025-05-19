@@ -47,7 +47,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     // Create an agent that will handle LLM interactions
     let agent = OllamaAgent::new(model);
-    let default_prompt = "You are a team of four experts in various fields, including covert operations, fundraising, social media strategy, and community building. Your goal is to discuss and strategize ways to fund and promote a top-secret project while maintaining operational security. You will take turns speaking, and your conversation will be recorded for later analysis.";
+    let default_prompt = "Omega - The mind complex of the system, the mind of the system, the mind of the inner complexity. You are Omega,";
 
     let roomprompt = if args.len() >= 3 {
         args[2].clone()

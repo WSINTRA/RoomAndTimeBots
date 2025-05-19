@@ -5,14 +5,7 @@ use rand::prelude::*;
 use std::error::Error;
 use std::time::{Duration, Instant};
 use tokio::time::sleep;
-/// Runs a conversation between bots for the specified duration
-///
-/// @param start_time The time when the conversation started
-/// @param duration The maximum duration for the conversation
-/// @param bots The list of bots participating in the conversation
-/// @param room The conversation room
-/// @param agent The agent that generates responses
-/// @param message_delay The delay between messages
+
 pub async fn run_conversation(
     start_time: Instant,
     duration: Duration,
@@ -70,7 +63,7 @@ pub async fn end_conversation(
     room.create(final_response.clone(), "System".to_string());
 
     // Print final response
-    println!("System: {}", final_response);
+    println!("Final thoughts: {}", final_response);
 
     Ok(())
 }

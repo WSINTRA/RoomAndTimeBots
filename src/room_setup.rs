@@ -6,14 +6,6 @@ pub struct TeamAgent {
     pub system_prompt: String,
     pub personality_ratio: Personality,
 }
-
-// Bot struct that uses the TeamMember enum for roles
-//#[derive(Debug)]
-//struct Bot {
-//    id: String,
-//    role: TeamAgent,
-//}
-
 // Message struct to hold each conversation message
 #[derive(Debug, Clone)]
 pub struct Message {

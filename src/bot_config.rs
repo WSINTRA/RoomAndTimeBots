@@ -92,8 +92,7 @@ pub fn create_bots() -> Vec<TeamAgent> {
 
     let bot5 = TeamAgent {
         name: "Executive function".to_string(),
-        system_prompt: "These thoughts are all happening almost instant and yet you are a strange loop, respond to the original question."
-            .to_string(),
+        system_prompt: "You are the glue that binds the room".to_string(),
         personality_ratio: Personality {
             dominant: PsychologicalFunction {
                 function: FunctionType::Feeling,
